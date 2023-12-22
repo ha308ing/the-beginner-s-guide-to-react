@@ -1,0 +1,38 @@
+<body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.js"></script>
+    <!-- <script src="https://unpkg.com/prop-types/prop-types.js"></script> -->
+    <script type="text/babel">
+        const root = document.getElementById("root");
+
+        function App() {
+            const [name, setName] = React.useState(() => {
+                console.log("ask for initial value only when needed");
+                return window.localStorage.getItem("name") || "";
+            });
+
+            React.useEffect(() => {
+                window.localStorage.setItem("name", name);
+            });
+
+            function handleChange(event) {
+                setName(event.target.value);
+            }
+
+            return (
+                <div>
+                    <form>
+                        <label htmlFor="name">Name: </label>
+                        <input id="name" onChange={handleChange} value={name} />
+                    </form>
+
+                    {name ? <strong>Hello {name}</strong> : "Please enter name"}
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, root);
+    </script>
+</body>

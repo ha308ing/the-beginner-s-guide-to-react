@@ -1,0 +1,23 @@
+<body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.js"></script>
+    <script src="https://unpkg.com/prop-types/prop-types.js"></script>
+    <script type="text/babel">
+        const root = document.getElementById("root");
+
+        function tick() {
+            const time = new Date().toLocaleTimeString();
+            const element = (
+                <>
+                    <input value={time} />
+                </>
+            );
+
+            ReactDOM.render(element, root);
+        }
+
+        setInterval(tick, 1000);
+    </script>
+</body>

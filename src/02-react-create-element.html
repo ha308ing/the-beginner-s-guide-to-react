@@ -1,0 +1,25 @@
+<body>
+    <div id="root"></div>
+    <script src="https://www.unpkg.com/react/umd/react.development.js"></script>
+    <script src="https://www.unpkg.com/react-dom/umd/react-dom.development.js"></script>
+    <script type="text/javascript">
+        const root = document.getElementById("root");
+        const element = React.createElement(
+            "div",
+            {
+                // children: ["Hello, world!", "Goodbye!"],
+                className: "element",
+                id: "og",
+            },
+            React.createElement("span", null, ["hello", "world"])
+        );
+
+        console.log(element);
+        ReactDOM.render(element, root);
+
+        // const element = document.createElement("div")
+        // element.textContent = "Hello!"
+        // element.className = "element"
+        // root.appendChild(element)
+    </script>
+</body>

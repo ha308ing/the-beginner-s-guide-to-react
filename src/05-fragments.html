@@ -1,0 +1,27 @@
+<!-- Render two elements side-by-side with React Fragments -->
+<body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.js"></script>
+    <script type="text/babel">
+        const root = document.getElementById("root");
+        // const headerElement = <span>Hello</span>
+        // const worldElement = <strong>World</strong>
+        // const fragment = React.createElement(React.Fragment, null, headerElement, ' ',worldElement)
+
+        // const fragment = <React.Fragment>
+        //     <span>Hello </span>
+        //     <strong>World</strong>
+        // </React.Fragment>
+
+        const fragment = (
+            <>
+                <span>Hello </span>
+                <strong>World1fss</strong>
+            </>
+        );
+
+        ReactDOM.render(fragment, root);
+    </script>
+</body>

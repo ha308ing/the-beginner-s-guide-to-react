@@ -1,0 +1,38 @@
+<body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.js"></script>
+    <script src="https://unpkg.com/prop-types/prop-types.js"></script>
+    <script type="text/babel">
+        const root = document.getElementById("root");
+        function Message({ firstName, lastName }) {
+            return (
+                <div className="message">
+                    Hello, {firstName} {lastName}!
+                </div>
+            );
+        }
+
+        /*
+        const PropTypes = {
+            string(props, propName, componentName) {
+                if(typeof props[propName] !== 'string') throw new Error(`${propName} in component ${componentName} should be a string, but you've passed ${typeof props[propName]} `)
+            }
+        }
+    */
+
+        Message.propTypes = {
+            firstName: PropTypes.string.isRequired,
+            lastName: PropTypes.string.isRequired,
+        };
+
+        const element = (
+            <div className="container">
+                <Message firstName={false} />
+            </div>
+        );
+
+        ReactDOM.render(element, root);
+    </script>
+</body>

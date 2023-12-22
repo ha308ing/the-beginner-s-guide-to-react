@@ -1,0 +1,99 @@
+<body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.js"></script>
+    <script type="text/babel">
+        function PokemonInfo({ pokemonName }) {
+            const [status, setStatus] = React.useState("idle");
+            const [pokemonData, setPokemonData] = React.useState(null);
+            const [errorState, setErrorState] = React.useState(null);
+
+            React.useEffect(() => {
+                if (!pokemonName) return;
+                setStatus("pending");
+                fetchPokemonData(pokemonName).then(
+                    r => {
+                        setStatus("resolved");
+                        setPokemonData(r);
+                    },
+                    error => {
+                        setStatus("rejected");
+                        setErrorState(true);
+                    }
+                );
+            }, [pokemonName]);
+
+            if (status === "rejected")
+                return (
+                    <div>
+                        <p>Oh no!</p>
+                    </div>
+                );
+            if (status === "idle") return <p>Please submit pokemon name</p>;
+            if (status === "pending") return <p>...</p>;
+            if (status === "resolved") return <pre>{JSON.stringify(pokemonData, null, 2)}</pre>;
+        }
+
+        function App() {
+            const [pokemonName, setPokemonName] = React.useState("");
+
+            function handleSubmit(event) {
+                event.preventDefault();
+                setPokemonName(event.target.elements.pokemonName.value);
+            }
+
+            return (
+                <div>
+                    <form onSubmit={handleSubmit}>
+                        <label htmlFor="pokemonName">Pokemon name:</label>
+
+                        <div>
+                            <input id="pokemonName" />
+                            <button type="submit">Submit</button>
+                        </div>
+                    </form>
+
+                    <hr />
+
+                    <PokemonInfo pokemonName={pokemonName} />
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById("root"));
+
+        function fetchPokemonData(pokemonName) {
+            const query = `
+                query GetPokemon($pokemon: PokemonEnum!) {
+                    getPokemon(pokemon: $pokemon) {
+                        color
+                        num
+                        weight
+                        gender {
+                            female
+                            male
+                        }
+                        types {
+                            name
+                        }
+                    }
+                }
+            `;
+
+            return window
+                .fetch("https://graphqlpokemon.favware.tech/v8", {
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json;charset=UTF-8",
+                    },
+                    body: JSON.stringify({
+                        query,
+                        variables: { pokemon: pokemonName },
+                    }),
+                })
+                .then(r => r.json())
+                .then(response => response.data.getPokemon);
+        }
+    </script>
+</body>
